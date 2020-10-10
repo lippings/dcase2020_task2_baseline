@@ -9,9 +9,9 @@
 # import python-library
 ########################################################################
 # from import
-import keras.models
-from keras.models import Model
-from keras.layers import Input, Dense, BatchNormalization, Activation
+import tensorflow.keras.models
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense, BatchNormalization, Activation
 
 ########################################################################
 # keras model
@@ -67,11 +67,11 @@ def get_model(inputDim):
 
 
 def load_model(file_path):
-    return keras.models.load_model(file_path)
+    return tensorflow.keras.models.load_model(file_path)
 
 
 if __name__ == "__main__":
-    from keras.utils import plot_model
+    from tensorflow.keras.utils import plot_model
 
     model = get_model(64)
     plot_model(model, to_file='model.png')
