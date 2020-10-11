@@ -209,5 +209,10 @@ if __name__ == "__main__":
         visualizer.loss_plot(history.history["loss"], history.history["val_loss"])
         visualizer.save_figure(history_img)
         model.save(model_file_path)
+        # Delete used variables
+        del model
+        del train_data
+        del files
+        del history
         com.logger.info("save_model -> {}".format(model_file_path))
         print("============== END TRAINING ==============")
