@@ -1,0 +1,3 @@
+[submodule "gradient_reversal"]
+	path = gradient_reversal
+	url = https://github.com/michetonu/gradient_reversal_keras_tf.git

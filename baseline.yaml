@@ -17,7 +17,12 @@ feature:
 fit:
   compile:
     optimizer : adam
-    loss : mean_squared_error
+    loss:
+      autoencoder: mean_squared_error
+      domain_classifier: categorical_crossentropy
+    loss_weights:
+      autoencoder: 1.0
+      domain_classifier: 1.0
   epochs : 100
   batch_size : 16
   shuffle : True

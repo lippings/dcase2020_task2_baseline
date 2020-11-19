@@ -19,6 +19,7 @@ import sys
 ########################################################################
 import numpy
 # from import
+from keras.utils import to_categorical
 from tqdm import tqdm
 # original lib
 import common as com
@@ -102,6 +103,11 @@ def list_to_vector_array(file_list,
     # calculate the number of dimensions
     dims = n_mels * frames
 
+    def get_id_from_file_name(fname):
+        return fname.split("_")[2]
+
+    ids = sorted(list(set([get_id_from_file_name(file_name) for file_name in file_list])))
+
     # iterate file_to_vector_array()
     for idx in tqdm(range(len(file_list)), desc=msg):
         vector_array = com.file_to_vector_array(file_list[idx],
@@ -110,11 +116,17 @@ def list_to_vector_array(file_list,
                                                 n_fft=n_fft,
                                                 hop_length=hop_length,
                                                 power=power)
+        machine_id = get_id_from_file_name(file_list[idx])
+        machine_id_int = ids.index(machine_id)
         if idx == 0:
             dataset = numpy.zeros((vector_array.shape[0] * len(file_list), dims), float)
+            id_embeddings = numpy.zeros((vector_array.shape[0] * len(file_list), 1, float)
         dataset[vector_array.shape[0] * idx: vector_array.shape[0] * (idx + 1), :] = vector_array
+        id_embeddings[vector_array.shape[0] * idx: vector_array.shape[0] * (idx + 1), 0] = machine_id_int
+    
+    id_embeddings = to_categorical(id_embeddings)
 
-    return dataset
+    return dataset, id_embeddings
 
 
 def file_list_generator(target_dir,
@@ -194,11 +206,11 @@ if __name__ == "__main__":
 
         # train model
         print("============== MODEL TRAINING ==============")
-        model = keras_model.get_model(param["feature"]["n_mels"] * param["feature"]["frames"])
+        model = keras_model.get_model(param["feature"]["n_mels"] * param["feature"]["frames"], len(train_data[1][0]))
         model.summary()
 
         model.compile(**param["fit"]["compile"])
-        history = model.fit(train_data,
+        history = model.fit(train_data[0],
                             train_data,
                             epochs=param["fit"]["epochs"],
                             batch_size=param["fit"]["batch_size"],

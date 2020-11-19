@@ -13,10 +13,12 @@ import tensorflow.keras.models
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, BatchNormalization, Activation
 
+from gradient_reversal.flipGradientTF import GradientReversal
+
 ########################################################################
 # keras model
 ########################################################################
-def get_model(inputDim):
+def get_model(inputDim, daDim):
     """
     define the keras model
     the model based on the simple dense auto encoder 
@@ -50,15 +52,15 @@ def get_model(inputDim):
     
     h = Dense(8)(h)
     h = BatchNormalization()(h)
+    aux = Activation('relu')(h)
+
+    h = Dense(256)(aux)
+    h = BatchNormalization()(h)
     h = Activation('relu')(h)
 
     h = Dense(256)(h)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
-
-    h = Dense(256)(h)
-    h = BatchNormalization()(h)
-    h = Activation('relu')(h)
     
     h = Dense(256)(inputLayer)
     h = BatchNormalization()(h)
@@ -76,9 +78,21 @@ def get_model(inputDim):
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
 
-    h = Dense(inputDim)(h)
+    h = Dense(inputDim, name='autoencoder')(h)
 
-    return Model(inputs=inputLayer, outputs=h)
+    da_in = GradientReversal(0.5)(aux)
+
+    da_h = Dense(128)(da_in)
+    da_h = BatchNormalization()(da_h)
+    da_h = Activation('relu')(da_h)
+
+    da_h = Dense(128)(da_h)
+    da_h = BatchNormalization()(da_h)
+    da_h = Activation('relu')(da_h)
+
+    da_h = Dense(daDim, name='domain_classifier')
+
+    return Model(inputs=inputLayer, outputs=[h, da_h])
 #########################################################################
 
 
