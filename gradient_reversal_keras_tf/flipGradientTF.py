@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.engine import Layer
+from tensorflow.keras.layers import Layer
 import tensorflow.keras.backend as K
 
 def reverse_gradient(X, hp_lambda):
