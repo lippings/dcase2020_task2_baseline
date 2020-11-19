@@ -120,7 +120,7 @@ def list_to_vector_array(file_list,
         machine_id_int = ids.index(machine_id)
         if idx == 0:
             dataset = numpy.zeros((vector_array.shape[0] * len(file_list), dims), float)
-            id_embeddings = numpy.zeros((vector_array.shape[0] * len(file_list), 1, float)
+            id_embeddings = numpy.zeros((vector_array.shape[0] * len(file_list), 1), float)
         dataset[vector_array.shape[0] * idx: vector_array.shape[0] * (idx + 1), :] = vector_array
         id_embeddings[vector_array.shape[0] * idx: vector_array.shape[0] * (idx + 1), 0] = machine_id_int
     
