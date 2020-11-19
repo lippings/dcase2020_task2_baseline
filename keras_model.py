@@ -9,9 +9,9 @@
 # import python-library
 ########################################################################
 # from import
-import keras.models
-from keras.models import Model
-from keras.layers import Input, Dense, BatchNormalization, Activation
+import tensorflow.keras.models
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense, BatchNormalization, Activation
 
 from gradient_reversal.flipGradientTF import GradientReversal
 
