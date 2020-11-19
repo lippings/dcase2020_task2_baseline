@@ -13,7 +13,7 @@ import tensorflow.keras.models
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, BatchNormalization, Activation
 
-from gradient_reversal.flipGradientTF import GradientReversal
+from gradient_reversal_keras_tf.flipGradientTF import GradientReversal
 
 ########################################################################
 # keras model
