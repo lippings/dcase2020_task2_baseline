@@ -1,6 +1,6 @@
 import tensorflow as tf
-from tf.keras.engine import Layer
-import tf.keras.backend as K
+from tensorflow.keras.engine import Layer
+import tensorflow.keras.backend as K
 
 def reverse_gradient(X, hp_lambda):
     '''Flips the sign of the incoming gradient during training.'''
