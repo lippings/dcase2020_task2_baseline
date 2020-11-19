@@ -1,3 +1,0 @@
-[submodule "gradient_reversal_keras_tf"]
-	path = gradient_reversal_keras_tf
-	url = git@github.com:lippings/gradient_reversal_keras_tf.git
