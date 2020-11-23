@@ -48,7 +48,7 @@ def get_model(inputDim):
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
     
-    h = Dense(16)(h)
+    h = Dense(8)(h)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
     
