@@ -29,7 +29,7 @@ class GradientReversal(Layer):
         self.hp_lambda = hp_lambda
 
     def build(self, input_shape):
-        self.trainable_weights = []
+        self._trainable_weights = []
 
     def call(self, x, mask=None):
         return reverse_gradient(x, self.hp_lambda)

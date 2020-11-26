@@ -26,27 +26,19 @@ def get_model(inputDim, daDim):
     """
     inputLayer = Input(shape=(inputDim,))
    
-    h = Dense(256)(inputLayer)
+    h = Dense(128)(inputLayer)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
    
-    h = Dense(256)(inputLayer)
+    h = Dense(128)(h)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
    
-    h = Dense(256)(inputLayer)
+    h = Dense(128)(h)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
     
-    h = Dense(256)(inputLayer)
-    h = BatchNormalization()(h)
-    h = Activation('relu')(h)
-
-    h = Dense(256)(inputLayer)
-    h = BatchNormalization()(h)
-    h = Activation('relu')(h)
-
-    h = Dense(256)(h)
+    h = Dense(128)(h)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
     
@@ -54,27 +46,19 @@ def get_model(inputDim, daDim):
     h = BatchNormalization()(h)
     aux = Activation('relu')(h)
 
-    h = Dense(256)(aux)
+    h = Dense(128)(aux)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
 
-    h = Dense(256)(h)
+    h = Dense(128)(h)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
     
-    h = Dense(256)(inputLayer)
+    h = Dense(128)(h)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
     
-    h = Dense(256)(inputLayer)
-    h = BatchNormalization()(h)
-    h = Activation('relu')(h)
-    
-    h = Dense(256)(inputLayer)
-    h = BatchNormalization()(h)
-    h = Activation('relu')(h)
-    
-    h = Dense(256)(inputLayer)
+    h = Dense(128)(h)
     h = BatchNormalization()(h)
     h = Activation('relu')(h)
 
@@ -90,14 +74,23 @@ def get_model(inputDim, daDim):
     da_h = BatchNormalization()(da_h)
     da_h = Activation('relu')(da_h)
 
-    da_h = Dense(daDim, name='domain_classifier')
+    da_h = Dense(128)(da_h)
+    da_h = BatchNormalization()(da_h)
+    da_h = Activation('relu')(da_h)
+
+    da_h = Dense(128)(da_h)
+    da_h = BatchNormalization()(da_h)
+    da_h = Activation('relu')(da_h)
+
+    da_h = Dense(daDim)
+    da_h = Activation('softmax', name='domain_classifier')(da_h)
 
     return Model(inputs=inputLayer, outputs=[h, da_h])
 #########################################################################
 
 
 def load_model(file_path):
-    return tensorflow.keras.models.load_model(file_path)
+    return tensorflow.keras.models.load_model(file_path, custom_objects={'GradientReversal': GradientReversal})
 
 
 if __name__ == "__main__":
