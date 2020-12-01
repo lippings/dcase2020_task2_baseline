@@ -64,7 +64,7 @@ def get_model(inputDim, daDim):
 
     h = Dense(inputDim, name='autoencoder')(h)
 
-    da_in = GradientReversal(0.5)(aux)
+    da_in = GradientReversal(1)(aux)
 
     da_h = Dense(128)(da_in)
     da_h = BatchNormalization()(da_h)
@@ -82,7 +82,7 @@ def get_model(inputDim, daDim):
     da_h = BatchNormalization()(da_h)
     da_h = Activation('relu')(da_h)
 
-    da_h = Dense(daDim)
+    da_h = Dense(daDim)(da_h)
     da_h = Activation('softmax', name='domain_classifier')(da_h)
 
     return Model(inputs=inputLayer, outputs=[h, da_h])
