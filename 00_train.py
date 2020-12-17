@@ -11,6 +11,7 @@
 import os
 import glob
 import sys
+from pathlib import Path
 ########################################################################
 
 
@@ -104,9 +105,10 @@ def list_to_vector_array(file_list,
     dims = n_mels * frames
 
     def get_id_from_file_name(fname):
-        return fname.split("_")[2]
+        return Path(fname).name.split("_")[2]
 
     ids = sorted(list(set([get_id_from_file_name(file_name) for file_name in file_list])))
+    print(ids)
 
     # iterate file_to_vector_array()
     for idx in tqdm(range(len(file_list)), desc=msg):
